@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from dovenv import load_dotenv
+from dotenv import load_dotenv
 import os
 
 from pathlib import Path
@@ -30,6 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
     "django-insecure-9a6+ou1qh1zsz8bx-3o_)d#m!)27e+x%&170=gowa7m(m@o+ru"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "0").lower() in ("1", "on", "t", "true", "y", "yes")
@@ -48,6 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "main",
     "accounts",
+    "django.contrib.sites", # django-allauth で使う
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +139,29 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# ...
+AUTH_USER_MODEL = "accounts.User"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SITE_ID = 1 # django.contrib.sites を使用するために必要
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory" # アカウント作成時にメールアドレスの確認を行うための設定
+ACCOUNT_EMAIL_REQUIRED = True # 同上
+
+DEFAULT_FROM_EMAIL = "beengineer@example.com" # 確認メールの送信元
+ACCOUNT_FORMS = {
+    "signup": "accounts.forms.CustomSignupForm", # 今回使うアカウント登録用フォーム
+}
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # ターミナル上にメールを表示するための設定
+#Emailの自動的処理方法を書く
+
+
+ACCOUNT_AUTHENTICATION_METHOD = "username" # username ログイン
+ACCOUNT_USERNAME_REQUIRED = True
+
+LOGIN_REDIRECT_URL = "main:home" # ログイン後の遷移先を設定

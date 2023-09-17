@@ -14,9 +14,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
+# ...
+# settings 追加
+from django.conf import settings
+# ...
+# include 追加
+from django.urls import include
+# 追加
+# ...
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    # path("",include("main.urls")),
+    path("", include("main.urls")),
+    path("accounts/", include("accounts.urls")), # allauth にない機能でアカウントに関連するものを accounts アプリ内で実行するためのルーティング
+    path("accounts/", include("allauth.urls")), # allauth を使うためのルーティング
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]
+
+
+
