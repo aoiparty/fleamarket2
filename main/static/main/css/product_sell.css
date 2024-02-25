@@ -1,0 +1,44 @@
+.image-form-wrapper {
+    box-sizing: border-box;
+    position: relative;
+    flex: 0 0 auto;
+    width: 75px;
+    height: 75px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    margin-right: 4px;
+}
+
+.image-form-wrapper label {
+    display: block;
+    width: 100%;
+}
+
+.image-form-wrapper i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-8px, -8px);
+}
+
+.image-form-wrapper i:first-child {
+    color: #2B8F38;
+}
+
+#id_form-0-image, #id_form-1-image, #id_form-2-image, #id_form-3-image, #id_form-4-image {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.inactive {
+    display: none;
+}
+
+.preview-image {
+    display: none;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

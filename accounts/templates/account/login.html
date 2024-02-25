@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_style %}
-<link rel="stylesheet" href="{% 'account/css/login.css' %}">
+<link rel="stylesheet" href="{% static 'account/css/login.css' %}">
 {% endblock %}
 
 {% block header %}
@@ -23,6 +23,9 @@
         <div class="login-form-field">
             {{form.password}}
         </div>
+        <a href="{% url 'account_login' %}">
+            <span>ログイン</span>
+        </a>
         <p class="caption">
             アカウントをお持ちでないですか？
             <a href="{% url 'signup' %}" class="registration-link">
@@ -35,6 +38,8 @@
         </a>
     </form>
 </div>
+{% endblock %}
+
 {% block footer %}
 <footer>
     <div class="footer-container">

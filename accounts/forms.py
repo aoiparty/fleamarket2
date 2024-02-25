@@ -2,6 +2,7 @@ from xml.etree.ElementTree import fromstring
 from allauth.account.forms import SetPasswordForm,SignupForm
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
       
 class CustomSignupForm(SignupForm):
     """会員登録用フォーム"""
@@ -31,3 +32,26 @@ class CustomSignupForm(SignupForm):
        #clean_フィールド名...新しいバリデーション。バリデーションで通らない時raise ValidaitonError()
      #self.fields["checkbox"].error_messages["required"]...fieldのCheckboxの中にあるerrormassagesのrequired
      #→"利用規約に同意する必要があります"が表示される
+
+# ...
+
+User = get_user_model()
+
+class EmailChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = {"email",}
+        widgets= {
+            "email":forms.TextInput(
+                attrs={
+                    "placeholder":"新しいメールアドレス",
+                }
+            )
+        }
+    def clean_email(self):
+       new_email = self.cleaned_data["email"]
+       #cleanrs_data 取得
+       user = User.objects.filter(email__iexact=new_email)
+       if user.exists():
+            raise ValidationError("このメールアドレスは既に使われています。")
+       return new_email

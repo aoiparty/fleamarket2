@@ -15,8 +15,7 @@ import os
 
 from pathlib import Path
 
-
-
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "main.context_processors.common_context",
             ],
         },
     },
@@ -160,8 +160,38 @@ ACCOUNT_FORMS = {
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # ターミナル上にメールを表示するための設定
 #Emailの自動的処理方法を書く
 
-
 ACCOUNT_AUTHENTICATION_METHOD = "username" # username ログイン
 ACCOUNT_USERNAME_REQUIRED = True
 
 LOGIN_REDIRECT_URL = "main:home" # ログイン後の遷移先を設定
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
+#アップロードされたファイルを保存
+
+
+# APIキーを保存
+#決済処理サービスStripeを利用するために必要
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+# ...
+
+#　ログアウト後の遷移先を設定
+LOGOUT_REDIRECT_URL = "/accounts/login/" 
+
+# ...
+STORAGES = {
+    "default": {
+        "BACKEND": "main.storage.MediaStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "main.storage.StaticStorage",
+    },
+}
+
+AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
+AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
+AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+
+STATIC_ROOT = BASE_DIR / "staticfiles"

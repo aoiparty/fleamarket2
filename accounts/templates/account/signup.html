@@ -30,7 +30,7 @@
             {{ form.checkbox }}
             利用規約とプライバシーポリシーに同意する
         </div>
-        <botton type="submit" lass="signup-form-btn">認証コード送信</botton>
+        <button type="submit" lass="signup-form-btn">認証コード送信</button>
     </form>
 
     {% if forms.errors %}
@@ -61,7 +61,5 @@
     </div>
 </footer>
 
-<a href="{% url 'account_login' %}">
-    <span>ログイン</span>
-</a>
+
 {% endblock %}

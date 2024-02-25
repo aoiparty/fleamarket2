@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 User = get_user_model()
 
@@ -37,7 +38,7 @@ class Product(models.Model):
     )
     product_status = models.CharField(max_length=20, choices=PRODUCT_STATUS_CHOICES)
     sales_status = models.CharField(max_length=20, choices=SALES_STATUS_CHOICES)
-    value = models.IntegerField()
+    value = models.IntegerField(validators=[MinValueValidator(300), MaxValueValidator(999999)])
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
